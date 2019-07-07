@@ -1,0 +1,27 @@
+# 服务器系统为Ubuntu16.04 LTS
+# 服务器开启ipv6
+
+
+1.更新软件：sudo apt-get upgrade
+2.下载脚本:git clone -b master https://github.com/flyzy2005/ss-fly
+3.运行搭建ss脚本代码:ss-fly/ss-fly.sh -i flyzy2005.com 1024 (修改自己的密码，将flyzy2005.com替换 1024替换)
+4.SS相关操作：
+启动：/etc/init.d/ss-fly start
+停止：/etc/init.d/ss-fly stop
+重启：/etc/init.d/ss-fly restart
+状态：/etc/init.d/ss-fly status
+查看ss链接：ss-fly/ss-fly.sh -sslink
+修改配置文件：vim /etc/shadowsocks.json
+卸载SS服务：ss-fly/ss-fly.sh -uninstall
+5.开启BBR加速：
+ss-fly/ss-fly.sh -bbr
+6.验证BBR加速：sysctl net.ipv4.tcp_available_congestion_control。
+如果返回值为：
+net.ipv4.tcp_available_congestion_control = bbr cubic reno
+后面有bbr，则说明已经开启成功了。
+7.开启IPV6监听：
+运行vim /etc/shadowsocks.json，修改 "server":"0.0.0.0", 为"server":"::",
+保存退出。
+重启ss：ssserver -c /etc/shadowsocks.json -d restart
+
+
